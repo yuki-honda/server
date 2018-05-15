@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>サーバプログラム</title>
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="./css/codemirror.css">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+  </head>
+  <body>
+    <script charset="utf-8" src="./js/util/jquery-2.1.0.js"></script>
+    <script charset="utf-8" src="./js/util/bootstrap.js"></script>
+    <script charset="utf-8" src="./js/editor/codemirror.js"></script>
+    <script charset="utf-8" src="./js/editor/mode/javascript/javascript.js"></script>
+    <script charset="utf-8" src="./js/editor/editor.js"></script>
+    <script charset="utf-8" src="./js/ide/fileLoad.js"></script>
+    <script charset="utf-8" src="./js/fs/fs.js"></script>
+
+    <div class="editor_div" style="z-index:0;">
+      <!--<button id=run class="btn btn-default">実行</button>-->
+      <button id=save class="btn btn-default">保存</button>
+      <button id=load class="btn btn-default">読み込み</button>
+      <button id=fontsize class="btn btn-default">文字サイズ設定</button>
+			<span id=ip_port_disp></span><br>
+      <textarea id="editor"></textarea>
+    </div>
+
+    <!--<iframe id="exe_window" class="exe_window"></iframe>-->
+
+    <div id="saveWindowBg" class="saveWindowBg">
+      <div id="saveWindow" class="well">
+        読み込むファイルを選択してください。
+        <div id="saveWindowContainer" class="container" style="width:100%;"></div>
+      </div>
+    </div>
+
+    <script charset="utf-8" src="./js/index.js"></script>
+  </body>
+</html>
