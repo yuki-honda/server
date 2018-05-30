@@ -1,6 +1,6 @@
 $(function(){
   $("#load").click(function(){
-    $("#saveWindowBg").show();
+    $("#loadWindowBg").show();
     $("#fileTable tbody tr").remove();
     fs.progDirFileListAsync(function(err,files){
       if(err)throw err;
@@ -18,39 +18,40 @@ $(function(){
     return false;
   });
 
-  //saveWindowの切り替え
-  var loadContainer=$('#saveWindowContainer');
-  $("#saveWindow").addClass("saveWindow");
+  //loadWindowの切り替え
+  var loadContainer=$('#loadWindowContainer');
+  $("#loadWindow").addClass("loadWindow");
   loadContainer.append($('<table id="fileTable" class="table table-bordered fileTable"><thead></thead><tbody></tbody></table>'));
   var fileList=$("#fileTable tbody");
-  $("#fileTable thead").append($('<tr class="row"><th class="col-xs-6">ファイル名</th><th class="col-xs-6">更新日時</th></tr>'));
+  //TODO スクロールバーの幅だけ小さくするなど？
+  $("#fileTable thead").append($('<tr class="row"></tr>'));
+  $("#fileTable thead tr").append($('<th class="col-xs-6 col-sm-6 col-md-6 col-lg-6">ファイル名</th><th class="col-xs-6 col-sm-6 col-md-6 col-lg-6">更新日時</th>'))
 
-	
   loadContainer.append($('<button id="loadSelectBtn" class="btn btn-default loadSelectBtnNode">読み込み</button>'));
-  $("#saveWindow").append(loadContainer);
+  $("#loadWindow").append(loadContainer);
   $("#loadSelectBtn").click(function(){
     var filename=findSelectFileName();
     if((filename+"").length<1)return;
     var src=fs.readFile(filename);
     editor.setValue(src);
-    $("#saveWindowBg").hide();
+    $("#loadWindowBg").hide();
   }.bind(this));
 
   var addToFileList =function(obj){
     var filename=obj['filename'];
     var timestamp=obj['timestamp']||'---';
-    var tr=$("<tr class=\"row\"></tr>");
-    tr.append($("<td class=\"col-xs-6\">"+filename+"</td>"));
-    tr.append($("<td class=\"col-xs-6\">"+timestamp+"</td>"));
+    var tr=$('<tr class="row"></tr>');
+    tr.append($('<td class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+filename+'</td>'));//class="col-xs-6" col-xs-6 col-xs-6
+    tr.append($('<td class="col-xs-6 col-sm-6 col-md-6 col-lg-6">'+timestamp+'</td>'));
     tr.appendTo($("#fileTable tbody"));
     setDefault(tr);
     setClick(tr);
   };
-  $("#saveWindowBg").click(function(){
-    $("#saveWindowBg").hide();
+  $("#loadWindowBg").click(function(){
+    $("#loadWindowBg").hide();
     return false;
   });
-  $("#saveWindow").click(function(){
+  $("#loadWindow").click(function(){
     event.stopPropagation();
   });
 
@@ -85,4 +86,3 @@ $(function(){
     return res;
   }
 });
-

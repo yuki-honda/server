@@ -5,7 +5,8 @@ var ipv4=localAddress.ipv4[0].address;
 //var alert=alert||console.log;
 try{
 	$(function(){
-		$("#ip_port_disp").text("IPアドレス:"+ipv4+" ポート番号:2021");
+		$("#ip").text("IPアドレス:"+ipv4);
+		$("#port").text("ポート番号:2021");
 	});
 }catch(e){
 	console.log("Server running at http://"+ipv4+":2021/");
@@ -32,4 +33,24 @@ function getLocalAddress() {
 		});
 	}
 	return ifacesObj;
+};
+
+var inputFileName=function(text,ext){
+  var filename="ファイル名"+ext;
+  filename=prompt(text,filename);
+  if(filename == "" || filename == null){
+    alert("キャンセルしました。");
+    return false;
+  }
+  if(filename.match(/\.[a-zA-Z0-9]+$/) == null) filename+= ext;
+  return filename;
+};
+var inputString=function(text,init){
+  var str=init;
+  str=prompt(text,str);
+  if(str == "" || str == null){
+    alert("キャンセルしました。");
+    return false;
+  }
+  return str;
 };
