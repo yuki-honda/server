@@ -9,8 +9,12 @@
   <body>
     <script charset="utf-8" src="./js/util/jquery-2.1.0.js"></script>
     <script charset="utf-8" src="./js/util/bootstrap.js"></script>
-    <script charset="utf-8" src="./js/editor/codemirror.js"></script>
-    <script charset="utf-8" src="./js/editor/mode/javascript/javascript.js"></script>
+    <script charset="utf-8" src="./js/editor/ace/ace.js"></script>
+    <script charset="utf-8" src="./js/editor/ace/mode-javascript.js"></script>
+    <!-- <script charset="utf-8" src="./js/editor/codemirror.js?180314"></script>
+    <script charset="utf-8" src="./js/editor/addon/search.js?180314"></script>
+    <script charset="utf-8" src="./js/editor/addon/searchcursor.js?180314"></script>
+    <script charset="utf-8" src="./js/editor/addon/dialog.js?180314"></script> -->
     <script charset="utf-8" src="./js/editor/editor.js"></script>
     <script charset="utf-8" src="./js/ide/fileLoad.js"></script>
     <script charset="utf-8" src="./js/fs/fs.js"></script>
@@ -21,7 +25,7 @@
       <button id=load class="btn btn-default">読み込み</button>
       <button id=fontsize class="btn btn-default">文字サイズ設定</button>
 			<span id=ip_port_disp></span><br>
-      <textarea id="editor"></textarea>
+      <div class="editor" id="editor"></div>
     </div>
 
     <!--<iframe id="exe_window" class="exe_window"></iframe>-->

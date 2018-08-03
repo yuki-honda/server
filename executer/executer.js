@@ -5,6 +5,7 @@ var IO=require("../data/IO");
 var read=IO.read;
 var write=IO.write;
 var push=IO.push;
+var look=IO.look;
 
 var fs=require("fs");
 var log=function(data){

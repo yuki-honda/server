@@ -1,34 +1,69 @@
 $(function(){
-  editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
-    lineNumbers: true,
-    lineWrapping: true,
-    indentUnit: 4,
-    tabSize: 4,
-    indentWithTabs: true,
-    mode: "javascript"
-  });
-  $(".CodeMirror").css("font-size",18);
-  editor.setOption("extraKeys",{
-    "Cmd-Up":function(){
-      var size=parseInt($(".CodeMirror").css("font-size"));
-      $(".CodeMirror").css("font-size",size+1);
-      editor.refresh();
-    },
-    "Cmd-Down":function(){
-      var size=parseInt($(".CodeMirror").css("font-size"));
-      $(".CodeMirror").css("font-size",size-1);
-      editor.refresh();
-    },
-    "F5":function(){
-      $("#run").click();
-    },
-  });
-  editor.setFontSize=function(size){
-    $(".CodeMirror").css("font-size",size);
-    editor.refresh();
-    return this;
-  };
-  editor.getFontSize=function(){
-    return parseInt($(".CodeMirror").css("font-size"));
+  var ua = navigator.userAgent.toLowerCase();
+
+  // iPhone
+  var isiPhone = (ua.indexOf('iphone') > -1);
+  // iPad
+  var isiPad = (ua.indexOf('ipad') > -1);
+  //iPod
+  var isiPod = (ua.indexOf('ipod') > -1);
+  // Android
+  var isAndroid = (ua.indexOf('android') > -1) && (ua.indexOf('mobile') > -1);
+  // Android Tablet
+  var isAndroidTablet = (ua.indexOf('android') > -1) && (ua.indexOf('mobile') == -1);
+
+  if(isiPhone || isiPad || isiPod || isAndroidTablet){
+    editor=new textarea(document.getElementById("editor"));
+    return;
   }
+
+  //$("<div id=\"editor\" class=\"editor\" style=\"z-index:0;\"></div>").appendTo($("body"));
+  editor=ace.edit("editor");
+  editor.setFontSize(16);
+  editor.getSession().setMode("ace/mode/javascript");
+  editor.getSession().setOption("useWorker", false);
+  editor.getSession().setUseWrapMode(true);
+  editor.commands.addCommand({
+    name:"fontSizeUp",
+    bindKey:{
+      win:"Ctrl-UP",
+      mac:"Command-UP",
+    },
+    exec:function(editor){
+      editor.setFontSize(editor.getFontSize()+1);
+    }
+  });
+  editor.commands.addCommand({
+    name:"fontSizeDown",
+    bindKey:{
+      win:"Ctrl-DOWN",
+      mac:"Command-DOWN",
+    },
+    exec:function(editor){
+      editor.setFontSize(editor.getFontSize()-1);
+    }
+  });
+  /*editor.commands.addCommand({
+    name:"paste",
+    bindKey:{
+      win:"Ctrl-V",
+      mac:"Command-V",
+    },
+    exec:function(editor){
+      editor.focus();
+    }
+  });*/
 });
+
+var textarea=function(p){
+  this.ta=$(p);
+  this.ta.addClass("editor");
+  this.ta.css("resize","none");
+  this.getValue=function(){
+    return this.ta.val();
+  };
+  this.setFontSize=function(){};
+  this.setValue=function(str){
+    this.ta.val(str);
+  };
+};
