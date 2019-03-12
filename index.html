@@ -16,32 +16,25 @@
     <script charset="utf-8" src="./js/util.js"></script>
     <script charset="utf-8" src="./js/fs/fs.js"></script>
     <!--IDE関係-->
-    <script charset="utf-8" src="./js/editor/editor.js"></script>
-    <script charset="utf-8" src="./js/ide/fileLoad.js"></script>
     <script charset="utf-8" src="./js/ide/ui.js"></script>
 
     <script charset="utf-8" src="./js/util/stringConverter.js?180314"></script>
 
-    <div class="editor_div" style="z-index:0;">
-      <div class="upper_part">
-        <button id=save class="btn btn-default">保存</button>
-        <button id=load class="btn btn-default">読み込み</button>
-        <button id=fontsize class="btn btn-default">文字サイズ設定</button>
-        <button id=dataInit class="btn btn-default">データの初期設定</button>
-        <div class="ip_port">
-          <span id=ip></span><br>
-          <span id=port></span>
-        </div>
+    <div class="all" style="z-index:0;">
+      <button id=dataInit class="btn btn-default">データの初期設定</button>
+      <div class="ip_port">
+        <span id=ip></span><br>
+        <span id=port></span>
       </div>
-      <textarea id="editor"></textarea>
+      <!-- <textarea id="editor"></textarea> -->
     </div>
 
-    <div id="loadWindowBg" class="windowBg">
+    <!-- <div id="loadWindowBg" class="windowBg">
       <div id="loadWindow" class="well">
         読み込むファイルを選択してください。
         <div id="loadWindowContainer" class="container" style="width:100%;"></div>
       </div>
-    </div>
+    </div> -->
 
     <!-- <div id="dataInitWindowBg" class="windowBg">
       <div id="dataInitWindow" class="well">
