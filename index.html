@@ -20,14 +20,39 @@
 
     <script charset="utf-8" src="./js/util/stringConverter.js?180314"></script>
 
-    <div class="all" style="z-index:0;">
-      <button id=dataInit class="btn btn-default">データの初期設定</button>
-      <div class="ip_port">
-        <span id=ip></span><br>
-        <span id=port></span>
-      </div>
+    <!-- <div class="all" style="z-index:0;"> -->
+      <!-- <button id=dataInit class="btn btn-default">データの初期設定</button> -->
+      <!-- <div class="ip_port"> -->
+      <!--   <span id=ip></span><br> -->
+      <!--   <span id=port></span> -->
+      <!-- </div> -->
+			
       <!-- <textarea id="editor"></textarea> -->
-    </div>
+    <!-- </div> -->
+		<div class="container">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label class="control-label col-xs-4">クローバの問いかけ</label>
+					<div class="col-xs-5">
+						<input type="text" id="serif" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-xs-4">スロット名</label>
+					<div class="col-xs-5">
+						<input type="text" id="slotName" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-xs-4">ExtensionID</label>
+					<div class="col-xs-5">
+						<input type="text" id="applicationid" class="form-control">
+					</div>
+				</div>
+			</form>
+			<button id="on" class="btn btn-default">起動！</button>
+			<button id="edit" class="btn btn-default">プログラムを編集する</button>
+		</div>
 
     <!-- <div id="loadWindowBg" class="windowBg">
       <div id="loadWindow" class="well">

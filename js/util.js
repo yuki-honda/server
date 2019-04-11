@@ -2,6 +2,7 @@ var os = require('os');
 var networkInterfaces = os.networkInterfaces();
 var localAddress=getLocalAddress();
 var ipv4=localAddress.ipv4[0].address;
+window.url='http://'+ipv4+":2021";
 //var alert=alert||console.log;
 try{
 	$(function(){

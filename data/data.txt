@@ -1,1 +1,1 @@
-{"resList":["aiueo","Hello"]}
+{"歩幅":20,"message_list":["honda「Hello!」","かめた「やっほ〜！」","aaa「aaa」","aaa「今日は暑いですね〜」"]}

@@ -5,7 +5,9 @@ var fs=(function(){
     return _fs.readFileSync("./prog/"+filename).toString();
   };
   this.writeFile=function(filename,src){
-    _fs.writeFile("./prog/"+filename,src);
+		console.log("filename:",filename);
+		console.log("src:",src);
+    _fs.writeFile("./prog/"+filename,src,function(err){});
   };
   this.getProgDirFileListSync=function(){
     return _fs.readdirSync("./prog/");
@@ -14,7 +16,7 @@ var fs=(function(){
     _fs.readdir("./prog/",func);
   };
 	this.getAtimeSync=function(filename){
-		var _atime=_fs.statSync("./prog/").atime.toString();
+		var _atime=_fs.statSync("./prog/"+filename).atime.toString();
 		var _atime_arr=_atime.split(" ");
 		var atime="";
 		var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];

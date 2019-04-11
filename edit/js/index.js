@@ -2,14 +2,17 @@ var place=window.location.href.toString().match(/^https?:\/\/(?:(?:[0-9]{1,3}\.[
 
 $("#save").click(function(){
 	var src=editor.getValue();
-	var filename=inputFileName("ファイル名を入力してください",".js");
-	if(filename===false)return;
+	src+='//auto_add;\n';
+	src+='process.on("message",function(msg){\n';
+	src+='  process.send({message:main(msg.message)})\n';
+	src+='});';
+	// var filename=inputFileName("ファイル名を入力してください",".js");
+	// if(filename===false)return;
 
-  fs.writeFile(filename,src);
-  //var list=$("#files").childen();
-  //list.map(function(k){console.log(k);});
-  var filesList=$("#files").children();
-  var filenameList=[];
+  fs.writeFile("clova.js",src);
+	alert("ファイルを保存しました。");
+  // var filesList=$("#files").children();
+  // var filenameList=[];
 });
 
 $("#fontsize").click(function(){

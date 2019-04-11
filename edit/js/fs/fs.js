@@ -3,14 +3,14 @@ var fs=(function(){
     //return _fs.readFileSync("./prog/"+filename).toString();
   };
 	this.readFileAsync=function(filename,func){
-		$.get(place+"/file/read?filename="+filename,function(data){
+		$.get(place+"/file/read?filename=clova.js"/*+filename*/,function(data){
 			func(data);
 		});
 	};
   this.writeFile=function(filename,src){
     //_fs.writeFile("./prog/"+filename,src);
 		$.post(place+"/file/write",{
-			"filename":filename,
+			"filename":"clova.js",//filename,
 			"src":src
 		});
   };
