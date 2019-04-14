@@ -1,34 +1,44 @@
 const clova = require('@line/clova-cek-sdk-nodejs')
 const express = require('express')
-var app=express();
-var bodyParser = require('body-parser'); // POST通信
-var multer = require('multer'); // v1.0.5
-var upload = multer(); // for parsing multipart/form-data
-var child_process=require("child_process");
-var fork = child_process.fork;
-var opener=require('opener');
+const app=express();
+const bodyParser = require('body-parser'); // POST通信
+const multer = require('multer'); // v1.0.5
+const upload = multer(); // for parsing multipart/form-data
+const child_process=require("child_process");
+const opener=require('opener');
+
+const dtl_runner=require("./js/dtl_runner/dtl_runner.js");
  
 app.use('/edit',express.static('edit'));
 
-// var applicationId="who.honda.myservice";
-// var serif='誰について教えてほしいんだい？';
-// var slotName="whoIntent";
 
-// var speechText=child_process.execFileSync("node",["./prog/clova.js","honda"]);
-// console.log(speechText);
-
-$("#on").click(function(){
-	var serif=$("#serif").val();
-	var applicationid=$("#applicationid").val();
-	var slotName=$("#slotName").val();
-	clova_up(applicationid,serif,slotName);
+$("#on").click(()=>{
+	// var serif=$("#serif").val();
+	// var id=$("#id").val();
+	// var slotName=$("#slotName").val();
+	// clova_up(id,serif,slotName);
+	clova_up("fortune","a","dateSlot");
+	// (async ()=>{
+	//   let program=fs.readFile("test.dtl");
+	//   program=await (()=>new Promise(resolve=>{
+	//     const prg=child_process.fork("./js/dtl_runner/transpiler.js");
+	//     prg.on('message',msg=>{prg.kill();resolve(msg.program);});
+	//     prg.send({program:program});
+	//   }))();
+	//   const result=await (()=>new Promise(resolve=>{
+	//     const prg=child_process.fork("./js/dtl_runner/runner.js");
+	//     prg.on('message',msg=>{prg.kill();resolve(msg.result);});
+	//     prg.send({program:program});
+	//   }))();
+	//   console.log(program);
+	//   console.log(result);
+	// })();
 });
 
-$("#edit").click(function(){opener(window.url+"/edit");});
+$("#edit").click(()=>opener(window.url+"/edit"));
 
-function clova_up(applicationId,serif,slotName){
-	console.log("hey");
-	console.log(arguments);
+function clova_up(id,serif,slotName){
+	// console.log(arguments);
 	const clovaSkillHandler = clova.Client
 		.configureSkill()
 		.onLaunchRequest(responseHelper => {
@@ -39,21 +49,45 @@ function clova_up(applicationId,serif,slotName){
 			})
 		})
 		.onIntentRequest(async responseHelper => {
-			// console.log(arguments);
 			const intent = responseHelper.getIntentName()
 			const sessionId = responseHelper.getSessionId()
 	 
 			let speechText = ''
-			// switch (intent) {
-			//   case slotName:
 			const slots = responseHelper.getSlots()
 			const eventName = slots[slotName];
 
-			speechText = await (function(){
-				return new Promise(function(resolve){
-					var prg=child_process.fork("./prog/clova.js");
-					prg.on('message',function(msg){resolve(msg.message);});
-					prg.send({message:eventName})
+			speechText = await (()=>{
+				return new Promise(async resolve=>{
+					const progDirFileList=fs.getProgDirFileListSync();
+					const file=progDirFileList.filter(
+						fn=>fn.split("/").shift().split(".")[0].match(RegExp("^"+id+"$"))
+					)[0];
+					console.log(file.match(/\..+$/)[0]);
+					switch(file.match(/\..+$/)[0]){
+						case '.js':
+							const prg=child_process.fork("./prog/"+id+".js");
+							prg.on('message',msg=>resolve(msg.message));
+							prg.send({message:eventName})
+							break;
+						case '.dtl':
+							// let program=fs.readFile(id+".dtl");
+							// console.log(program);
+							// program=await (()=>new Promise(resolve=>{
+							//   const prg=child_process.fork("./js/dtl_runner/transpiler.js");
+							//   prg.on('message',msg=>{prg.kill();resolve(msg.program);});
+							//   prg.send({program:program});
+							// }))();
+							// console.log(program);
+							// const result=await (()=>new Promise(resolve=>{
+							//   const prg=child_process.fork("./js/dtl_runner/runner.js");
+							//   prg.on('message',msg=>{prg.kill();resolve(msg.result);});
+							//   prg.send({program:program});
+							// }))();
+							// console.log(program);
+							const result=await dtl_runner(id+".dtl");
+							resolve(result);
+							break;
+					}
 				});
 			})();
 			responseHelper.setSimpleSpeech(
@@ -66,10 +100,9 @@ function clova_up(applicationId,serif,slotName){
 			// Do something on session end
 		})
 		.handle()
-	const clovaMiddleware = clova.Middleware({ applicationId: applicationId })
-	app.post('/clova', clovaMiddleware, clovaSkillHandler)
+	const clovaMiddleware = clova.Middleware({ applicationId: id+".honda.myservice" })
+	app.post('/'+id, clovaMiddleware, clovaSkillHandler)
 }
-// clova_up(applicationId,serif,slotName);
 
 //ファイル名の一覧を取得
 app.get('/file/list',function(req,res){

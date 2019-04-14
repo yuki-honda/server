@@ -6,10 +6,11 @@ $("#save").click(function(){
 	src+='process.on("message",function(msg){\n';
 	src+='  process.send({message:main(msg.message)})\n';
 	src+='});';
-	// var filename=inputFileName("ファイル名を入力してください",".js");
-	// if(filename===false)return;
+	var filename=inputFileName("ファイル名を入力してください",".js");
+	if(filename===false)return;
 
-  fs.writeFile("clova.js",src);
+  // fs.writeFile("clova.js",src);
+  fs.writeFile(filename,src);
 	alert("ファイルを保存しました。");
   // var filesList=$("#files").children();
   // var filenameList=[];
