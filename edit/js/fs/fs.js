@@ -11,7 +11,7 @@ var fs=(function(){
   this.writeFile=function(filename,src){
     //_fs.writeFile("./prog/"+filename,src);
 		$.post(place+"/file/write",{
-			"filename":"clova.js",//filename,
+			"filename":filename,
 			// "filename":"clova.js",//filename,
 			"src":src
 		});

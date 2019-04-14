@@ -1,2 +1,13 @@
-nwjs.app
+/credits.html
+/nw
+/v8_context_snapshot.bin
+/icudtl.dat
+/locales/
+/nw_100_percent.pak
+/natives_blob.bin
+/nw_200_percent.pak
+/resources.pak
 node_modules/
+/swiftshader/
+/lib/
+/nwjs.app

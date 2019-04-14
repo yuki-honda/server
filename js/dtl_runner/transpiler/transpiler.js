@@ -1,4 +1,5 @@
-const MinimalParser=require('./transpiler/minimal');
+const MinimalParser=require('./minimal');
+const fs=require('fs');
 
 process.on("message",function(msg){
 	let program = msg.program;

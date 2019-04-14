@@ -13,7 +13,7 @@ $(function(){
 			files.map(function(k){
 				var filename=k[0];
 				var timestamp=k[1];
-				if(!filename.match(/\.js$/))return;
+				// if(!filename.match(/\.js$/)&&!filename.match(/\.dtl$/))return;
 				var obj={};
 				obj['filename']=filename;
 				obj['timestamp']=timestamp||"---";

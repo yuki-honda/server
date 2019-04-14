@@ -6,11 +6,12 @@ const multer = require('multer'); // v1.0.5
 const upload = multer(); // for parsing multipart/form-data
 const child_process=require("child_process");
 const opener=require('opener');
+const ip=require('ip');
 
+const js_runner=require("./js/js_runner/js_runner.js");
 const dtl_runner=require("./js/dtl_runner/dtl_runner.js");
  
 app.use('/edit',express.static('edit'));
-
 
 $("#on").click(()=>{
 	// var serif=$("#serif").val();
@@ -18,24 +19,9 @@ $("#on").click(()=>{
 	// var slotName=$("#slotName").val();
 	// clova_up(id,serif,slotName);
 	clova_up("fortune","a","dateSlot");
-	// (async ()=>{
-	//   let program=fs.readFile("test.dtl");
-	//   program=await (()=>new Promise(resolve=>{
-	//     const prg=child_process.fork("./js/dtl_runner/transpiler.js");
-	//     prg.on('message',msg=>{prg.kill();resolve(msg.program);});
-	//     prg.send({program:program});
-	//   }))();
-	//   const result=await (()=>new Promise(resolve=>{
-	//     const prg=child_process.fork("./js/dtl_runner/runner.js");
-	//     prg.on('message',msg=>{prg.kill();resolve(msg.result);});
-	//     prg.send({program:program});
-	//   }))();
-	//   console.log(program);
-	//   console.log(result);
-	// })();
 });
 
-$("#edit").click(()=>opener(window.url+"/edit"));
+$("#edit").click(()=>opener("http://"+ip.addres()+":2021/edit"));
 
 function clova_up(id,serif,slotName){
 	// console.log(arguments);
@@ -54,7 +40,7 @@ function clova_up(id,serif,slotName){
 	 
 			let speechText = ''
 			const slots = responseHelper.getSlots()
-			const eventName = slots[slotName];
+			const parameter = slots[slotName];
 
 			speechText = await (()=>{
 				return new Promise(async resolve=>{
@@ -62,30 +48,14 @@ function clova_up(id,serif,slotName){
 					const file=progDirFileList.filter(
 						fn=>fn.split("/").shift().split(".")[0].match(RegExp("^"+id+"$"))
 					)[0];
-					console.log(file.match(/\..+$/)[0]);
+					const program=fs.readFile(file);
+					alert(file);
 					switch(file.match(/\..+$/)[0]){
 						case '.js':
-							const prg=child_process.fork("./prog/"+id+".js");
-							prg.on('message',msg=>resolve(msg.message));
-							prg.send({message:eventName})
+							resolve(await js_runner(program,parameter));
 							break;
 						case '.dtl':
-							// let program=fs.readFile(id+".dtl");
-							// console.log(program);
-							// program=await (()=>new Promise(resolve=>{
-							//   const prg=child_process.fork("./js/dtl_runner/transpiler.js");
-							//   prg.on('message',msg=>{prg.kill();resolve(msg.program);});
-							//   prg.send({program:program});
-							// }))();
-							// console.log(program);
-							// const result=await (()=>new Promise(resolve=>{
-							//   const prg=child_process.fork("./js/dtl_runner/runner.js");
-							//   prg.on('message',msg=>{prg.kill();resolve(msg.result);});
-							//   prg.send({program:program});
-							// }))();
-							// console.log(program);
-							const result=await dtl_runner(id+".dtl");
-							resolve(result);
+							resolve(await dtl_runner(id+".dtl",parameter));
 							break;
 					}
 				});
@@ -110,7 +80,7 @@ app.get('/file/list',function(req,res){
 	console.log('filelist');
 	var data=fs.getProgDirFileListSync().toString();
 	data=data.split(",");
-	data=data.filter(function(e){return e.match(/.js$/);});
+	data=data.filter(function(e){return e.match(/.(?:js|dtl)$/);});
 	data=data.map(function(e){
 		var atime=fs.getAtimeSync(e);
 		return e+","+atime;
