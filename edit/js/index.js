@@ -2,10 +2,6 @@ var place=window.location.href.toString().match(/^https?:\/\/(?:(?:[0-9]{1,3}\.[
 
 $("#save").click(function(){
 	var src=editor.getValue();
-	src+='//auto_add;\n';
-	src+='process.on("message",function(msg){\n';
-	src+='  process.send({message:main(msg.message)})\n';
-	src+='});';
 	var filename=inputFileName("ファイル名を入力してください",".js");
 	if(filename===false)return;
 

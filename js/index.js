@@ -21,7 +21,7 @@ $("#on").click(()=>{
 	clova_up("fortune","a","dateSlot");
 });
 
-$("#edit").click(()=>opener("http://"+ip.addres()+":2021/edit"));
+$("#edit").click(()=>opener(opener(window.url+"/edit")));
 
 function clova_up(id,serif,slotName){
 	// console.log(arguments);
@@ -49,13 +49,12 @@ function clova_up(id,serif,slotName){
 						fn=>fn.split("/").shift().split(".")[0].match(RegExp("^"+id+"$"))
 					)[0];
 					const program=fs.readFile(file);
-					alert(file);
 					switch(file.match(/\..+$/)[0]){
 						case '.js':
 							resolve(await js_runner(program,parameter));
 							break;
 						case '.dtl':
-							resolve(await dtl_runner(id+".dtl",parameter));
+							resolve(await dtl_runner(program,parameter));
 							break;
 					}
 				});
@@ -109,7 +108,7 @@ app.listen(2021, () => console.log(`Server running on 2021`))
 // const ngrok = require('ngrok');
 
 // connectNgrok().then(url => {
-//     console.log('URL : ' + url);
+//     alert('URL : ' + url);
 // });
 
 // // ngrokを非同期で起動
