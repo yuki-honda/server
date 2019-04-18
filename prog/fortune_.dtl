@@ -1,2 +1,3 @@
-arr=array!"hoge""fuga"create.
-arr!"で"join.
+str=clova!get.
+arr=array!"お前の誕生日は" "なのか？"create.
+clova!(arr!(str)join)speech.

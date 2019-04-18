@@ -6,7 +6,7 @@ const multer = require('multer'); // v1.0.5
 const upload = multer(); // for parsing multipart/form-data
 const child_process=require("child_process");
 const opener=require('opener');
-const ip=require('ip');
+// const ip=require('ip');
 
 const js_runner=require("./js/js_runner/js_runner.js");
 const dtl_runner=require("./js/dtl_runner/dtl_runner.js");
@@ -14,16 +14,17 @@ const dtl_runner=require("./js/dtl_runner/dtl_runner.js");
 app.use('/edit',express.static('edit'));
 
 $("#on").click(()=>{
-	// var serif=$("#serif").val();
-	// var id=$("#id").val();
-	// var slotName=$("#slotName").val();
-	// clova_up(id,serif,slotName);
-	clova_up("fortune","a","dateSlot");
+	var serif=$("#serif").val();
+	var id=$("#id").val();
+	var slotName=$("#slotName").val();
+	clova_up(id,serif,slotName);
+	// clova_up("fortune","a","dateSlot");
 });
 
 $("#edit").click(()=>opener(opener(window.url+"/edit")));
 
-function clova_up(id,serif,slotName){
+function clova_up(ext_id,serif,slotName){
+	const id=ext_id.split('.')[0];
 	// console.log(arguments);
 	const clovaSkillHandler = clova.Client
 		.configureSkill()
@@ -69,7 +70,7 @@ function clova_up(id,serif,slotName){
 			// Do something on session end
 		})
 		.handle()
-	const clovaMiddleware = clova.Middleware({ applicationId: id+".honda.myservice" })
+	const clovaMiddleware = clova.Middleware({ applicationId: ext_id })
 	app.post('/'+id, clovaMiddleware, clovaSkillHandler)
 }
 
